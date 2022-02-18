@@ -12,7 +12,7 @@ func Cors() gin.HandlerFunc {
 	config.AllowMethods = []string{"GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"}
 	config.AllowHeaders = []string{"Origin", "Content-Length", "Content-Type", "Cookie"}
 	if gin.Mode() == gin.ReleaseMode {
-		config.AllowOrigins = []string{"http://www.example.com"}
+		config.AllowOrigins = []string{"https://www.example.com"}
 	} else {
 		config.AllowOriginFunc = func(origin string) bool {
 			if regexp.MustCompile(`^http://127\.0\.0\.1:\d+$`).MatchString(origin) {

@@ -1,26 +1,26 @@
 package main
 
 import (
-	"github.com/sirupsen/logrus"
-
-	"github.com/pxwxnvermx/todo-rest/routes"
-	"github.com/pxwxnvermx/todo-rest/storage"
-	"github.com/pxwxnvermx/todo-rest/utils"
+	db "github.com/pxwxnvermx/todo-rest-go/db/sqlc"
+	"github.com/pxwxnvermx/todo-rest-go/routes"
+	"github.com/pxwxnvermx/todo-rest-go/utils"
+	logger "github.com/sirupsen/logrus"
 )
 
 func main() {
-	var logger = logrus.New()
 	var err error
+	config := utils.LoadConfig()
 
-	db, err := utils.InitDB()
+	database, err := utils.InitDB(config.Database[0])
 	if err != nil {
 		logger.Error(err)
 	}
 
-	s := storage.NewStorage(db)
-	r := routes.NewRouter(logger, s)
+	s := db.NewStore(database)
+	r := routes.NewRouter(s)
 
-	if err = r.Run(":3000"); err != nil {
+	if err = r.Run(":5000"); err != nil {
 		logger.Error(err)
 	}
+
 }

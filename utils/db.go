@@ -1,28 +1,27 @@
 package utils
 
 import (
+	"database/sql"
 	"fmt"
 
-	"github.com/pxwxnvermx/todo-rest/models"
-	"gorm.io/driver/sqlite"
-	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
+	_ "github.com/lib/pq"
 )
 
-func InitDB() (*gorm.DB, error) {
-	db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{
-		Logger: logger.Default.LogMode(logger.Info),
-	})
+func InitDB(dbConfig DBConfig) (*sql.DB, error) {
+	connString := fmt.Sprintf(
+		"host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
+		dbConfig.Host,
+		dbConfig.Port,
+		dbConfig.User,
+		dbConfig.Password,
+		dbConfig.DBName,
+	)
 
-	db.Debug()
+	database, err := sql.Open("postgres", connString)
 
 	if err != nil {
-		fmt.Print(err)
+		return database, err
 	}
 
-	if err = db.AutoMigrate(&models.Todo{}); err != nil {
-		fmt.Print(err)
-	}
-
-	return db, nil
+	return database, nil
 }

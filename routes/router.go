@@ -2,13 +2,12 @@ package routes
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/pxwxnvermx/todo-rest/handler"
-	"github.com/pxwxnvermx/todo-rest/middleware"
-	"github.com/pxwxnvermx/todo-rest/storage"
-	"github.com/sirupsen/logrus"
+	db "github.com/pxwxnvermx/todo-rest-go/db/sqlc"
+	"github.com/pxwxnvermx/todo-rest-go/handler"
+	"github.com/pxwxnvermx/todo-rest-go/middleware"
 )
 
-func NewRouter(logger *logrus.Logger, todoStorage storage.Storage) *gin.Engine {
+func NewRouter(todoStorage *db.Store) *gin.Engine {
 	r := gin.Default()
 
 	r.Use(middleware.Cors())
