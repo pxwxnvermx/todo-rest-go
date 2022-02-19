@@ -1,0 +1,10 @@
+.idea
+.vscode
+
+*.db
+postgres-data/
+.git
+.cache
+README.md
+requests.http
+LICENSE
